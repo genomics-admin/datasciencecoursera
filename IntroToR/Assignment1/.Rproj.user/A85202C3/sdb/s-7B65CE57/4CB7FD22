@@ -1,0 +1,17 @@
+{
+    "contents" : "source(\"complete.R\")\ncorr <- function(directory, threshold = 0) {\n  ###call the function and list out the complete pairs\n  df1 <- complete(directory,1:332)\n  #print(df1[,1])\n  \n  ###build the list of id's that are higher than the threshold\n  id <- list()\n  j <- 0\n  for(i in 1:nrow(df1)){\n    if(df1[i,][\"nobs\"]>threshold){\n      #print(df1[,1])\n      j <- j+1\n      id[length(id)+1] <- df1[i,][\"id\"]\n    }\n    \n  }\n  \n  #if nothing matches threshold requirement\n  if(j==0){\n    numvec <- numeric()\n    print(summary(numvec))\n    print(length(numvec))\n    print(\"0 hits\")\n    return(numvec) \n  }\n  \n  ###else\n  print(id)\n  \n  ###Directory Validation\n  if (!file.exists(toString(paste(getwd(),directory,sep=\"/\")))) {\n    stop(\"Directory/Folder does not exist in given path. Check Directory variable.\")\n  } \n  \n  ###File validation and listing\n  filepattern <- paste(\"(^[0]*\",paste(id,collapse='|^[0]*'),\")\",\"\\\\.csv$\",sep=\"\")##\"\\\\.csv$\"\n  files <- dir(toString(paste(getwd(),directory,sep=\"/\")), recursive=TRUE, full.names=TRUE, pattern=filepattern)\n  print(files)\n  \n  ###pushing all the file data to a list of data frames\n  x <- numeric(0)\n  myfiles <- list()\n  for(i in 1:length(files)){\n    myfiles[i] <- lapply(files[i], read.csv)  \n    x <- c(x,cor(myfiles[[i]][,2],myfiles[[i]][,3],use = \"pairwise.complete.obs\"))\n  }\n  \n  #print(cor(myfiles[,2],myfiles[,3], use = \"pairwise.complete.obs\"))\n  #print(apply(myfiles[,-1],1,function(u) cor(u[,2],u[,3],use = \"pairwise.complete.obs\")))\n  \n  \n  \n  \n  print(head(x))\n  return(x)\n  \n}\n\n###Test code\n#cr <- corr(\"specdata\", 150)\n#print(head(cr))\n#print(summary(cr))\n#print(length(cr))\n\n# cr <- corr(\"specdata\", 400)\n# head(cr)\n# summary(cr)\n# \n#cr <- corr(\"specdata\", 5000)\n#summary(cr)\n#length(cr)\n# \n# cr <- corr(\"specdata\")\n# summary(cr)\n# length(cr)",
+    "created" : 1397848173850.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "979951432",
+    "id" : "4CB7FD22",
+    "lastKnownWriteTime" : 1397978152,
+    "path" : "~/Sandeep/GitHub/datasciencecoursera/IntroToR/Assignment1/corr.R",
+    "project_path" : "corr.R",
+    "properties" : {
+        "tempName" : "Untitled1"
+    },
+    "source_on_save" : true,
+    "type" : "r_source"
+}

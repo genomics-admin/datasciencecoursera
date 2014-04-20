@@ -1,0 +1,17 @@
+{
+    "contents" : "\n\n\ngetwd()\ndirc <- paste(getwd(),\"/rprog-data-specdata/\",sep=\"\")\ndirc\n\n# Make a function to process each file\nprocessFile <- function(f) {\n  df <- read.csv(f)\n  # ...and do stuff...\n  file.info(f)$size # dummy result\n}\n\n# Find all .csv files\nfiles <- dir(paste(getwd(),directory,sep=\"/\"), recursive=TRUE, full.names=TRUE, pattern=\"\\\\.csv$\")\n\n# Apply the function to all files.\nresult <- sapply(files, processFile)\n\nresult\n\n\n\n\nid <- 30:150\n\nid1 <- paste(\"(\",paste(id,collapse='|'),\")\",\"\\\\.csv$\",sep=\"\")\nid1\n\n\nif (file.exists(paste(getwd(), directory, \"/\", sep = \"/\", collapse = \"/\"))) {\n  print(\"subDir exists in mainDir and is a directory\")\n} else {\n  stop(\"directory does not exist in given path\")\n}\n\n\n###pushing all the file data to a list of data frames\nmyfiles <- list()\nfor(i in 1:length(files)){\n  myfiles[i] <- lapply(files[i], read.csv)  \n}\n\n#validating data\nprint(myfiles[[1]][1,]) \n\nid <- c(1,2,3)\nclass(id)\n\nid <- 9:3#c(1,2,3)\nfor (k in id){\n  print(k)\n}\n\n\nnodata <- data.frame(id= integer(0), nobs= integer(0))\nstr(nodata)\n\ntdata <- data.frame(id=1,nobs=5)\nnodata <- rbind(nodata,tdata)\nnodata <- rbind(nodata,data.frame(id=2,nobs=6))\n\n\nmat<-matrix(1:9,1,9) \nmat1 <- which(mat==5,arr.ind=TRUE)\nmat1[[1,1]]\n\n\nfiles <- dir(paste(getwd(),\"specdata\",sep=\"/\"), recursive=TRUE, full.names=TRUE, pattern=\"\\\\.csv$\")\n\nmyfiles <- list()\nfor(i in 1:length(files)){\n  myfiles[i] <- lapply(files[i], read.csv)  \n}\n\ny <- data.frame(group = letters[1:5], a = rnorm(5) , b = rnorm(5), c = rnorm(5), d = rnorm(5) )\nprint(y)\napply(y[,-1],1,function(x) cor(x[1:2],x[3:4]))\ncor(y[c(2,3)])\nprint(head(cor(myfiles[[1]][2:3], use = \"pairwise.complete.obs\")))",
+    "created" : 1397731661999.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "303501185",
+    "id" : "993CA943",
+    "lastKnownWriteTime" : 1397947589,
+    "path" : "~/Sandeep/GitHub/datasciencecoursera/IntroToR/Assignment1/rough.R",
+    "project_path" : "rough.R",
+    "properties" : {
+        "tempName" : "Untitled1"
+    },
+    "source_on_save" : false,
+    "type" : "r_source"
+}

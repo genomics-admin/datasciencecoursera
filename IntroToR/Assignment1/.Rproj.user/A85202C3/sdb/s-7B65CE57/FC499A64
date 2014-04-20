@@ -1,0 +1,17 @@
+{
+    "contents" : "\npollutantmean <- function(directory, pollutant, id = 1:332) {\n  ###Directory Validation\n  if (!file.exists(toString(paste(getwd(),directory,sep=\"/\")))) {\n    stop(\"Directory/Folder does not exist in given path. Check Directory variable.\")\n  } \n#   else {\n#     print(\"subDir exists in mainDir and is a directory\")\n#   }\n  \n  ###File validation and listing\n  files <- 0\n  if (class(id) == 'numeric'){\n    filepattern=paste(toString(id),\".csv\",sep=\"\")\n    #print(filepattern)\n    files <- dir(toString(paste(getwd(),directory,sep=\"/\")), recursive=TRUE, full.names=TRUE, pattern=filepattern)\n    files <- files[1]\n    #print(files)  \n  }\n  else if (class(id) == 'integer'){\n    #filepattern <-{\n      #\"100\\\\.csv$|200\\\\.csv$\"\n      #\"(001|200)\\\\.csv$\"\n      #paste(\"(^[0]*\",paste(id,collapse='|^[0]*'),\")\",\"\\\\.csv$\",sep=\"\")\n    #}\n    #print(filepattern)\n    files <- dir(toString(paste(getwd(),directory,sep=\"/\")), recursive=TRUE, full.names=TRUE, pattern=paste(\"(^[0]*\",paste(id,collapse='|^[0]*'),\")\",\"\\\\.csv$\",sep=\"\"))\n  }\n  else{\n    stop(\"ID parameter seems to be of incorrect format..\\n\\tExpected: \\n\\t\\t1. Single numaric value, for example 35. \\n\\t\\t2. A range of (integer type)value, example 2:300\\n\")\n  }\n  \n  #Validating file paths\n  #print(files)\n\n  ###pushing all the file data to a data frame\n  myfiles <- data.frame()\n  for(i in 1:length(files)){\n    myfiles <- rbind(myfiles, read.csv(files[i],header=TRUE))  \n  }\n  \n  #validating data\n  #print(myfiles[1,])\n  #print(nrow(myfiles))\n\n  ###Aggregating \n  meanval <- list()\n  for (i in 1:nrow(myfiles)){\n    if (!is.na(myfiles[i,][pollutant])){\n      meanval[length(meanval)+1] <- myfiles[i,][pollutant]\n    }\n  }\n\n  print(round(Reduce(\"+\",meanval)/length(meanval),digits=3))\n  \n}\n\n###Test code\n#pollutantmean(\"specdata\", \"sulfate\", 1:10)\n#pollutantmean(\"specdata\", \"nitrate\", 70:72)\n#pollutantmean(\"specdata\", \"nitrate\", 23)\n#pollutantmean(\"specdata\", \"nitrate\")\n",
+    "created" : 1397798049126.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "1947352890",
+    "id" : "FC499A64",
+    "lastKnownWriteTime" : 1397765067,
+    "path" : "~/Sandeep/GitHub/datasciencecoursera/IntroToR/Assignment1/pollutantmean.R",
+    "project_path" : "pollutantmean.R",
+    "properties" : {
+        "tempName" : "Untitled1"
+    },
+    "source_on_save" : false,
+    "type" : "r_source"
+}

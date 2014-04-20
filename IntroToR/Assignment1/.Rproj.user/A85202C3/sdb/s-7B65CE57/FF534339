@@ -1,0 +1,17 @@
+{
+    "contents" : "###optimized\ncomplete <- function(directory, id = 1:332) {\n  ###Directory Validation\n  if (!file.exists(toString(paste(getwd(),directory,sep=\"/\")))) {\n    stop(\"Directory/Folder does not exist in given path. Check Directory variable.\")\n  } \n  \n  ###File validation and listing\n  files <- dir(toString(paste(getwd(),directory,sep=\"/\")), recursive=TRUE, full.names=TRUE, pattern=paste(\"(^[0]*\",paste(id,collapse='|^[0]*'),\")\",\"\\\\.csv$\",sep=\"\"))\n  #print(files)\n  \n  ###pushing all the file data to a list of data frames\n  myfiles <- list()\n  for(i in 1:length(files)){\n    myfiles[i] <- lapply(files[i], read.csv)  \n  }\n    \n  #validating data\n  #print(nrow(myfiles[[1]])) \n  \n  ###actual processing\n  outputDF <- data.frame(id= integer(0), nobs= integer(0))\n  for (k in id){\n    j <- 0\n    for(i in 1:length(myfiles)){\n      if(myfiles[[i]][1,\"ID\"]==k){\n        k1 <- i\n      }\n    }\n    #print(k1)\n    #print(nrow(myfiles[[k1]]))\n    for (i in 1:nrow(myfiles[[k1]])){\n      if ((myfiles[[k1]][i,\"ID\"]==k) & (!is.na(myfiles[[k1]][i,\"sulfate\"])) & (!is.na(myfiles[[k1]][i,\"nitrate\"]))){\n        j <- j+1\n        #print(j)\n      }\n    }\n    #validate data\n    #print(paste(k,\"---\",j,sep=\"\"))\n    \n    ###storing in desired output format\n    outputDF <- rbind(outputDF,data.frame(id=k,nobs=j))\n    \n  }\n  #print(outputDF)\n  return(outputDF)\n  \n}\n\n###Test code\n#complete(\"specdata\", 1)\n#complete(\"specdata\", c(2, 4, 8, 10, 12))\n#complete(\"specdata\", 30:25)\n#complete(\"specdata\", 3)\n#complete(\"specdata\", 332:1)",
+    "created" : 1397933678119.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "1459868959",
+    "id" : "FF534339",
+    "lastKnownWriteTime" : 1397934766,
+    "path" : "~/Sandeep/GitHub/datasciencecoursera/IntroToR/Assignment1/complete.R",
+    "project_path" : "complete.R",
+    "properties" : {
+        "tempName" : "Untitled1"
+    },
+    "source_on_save" : false,
+    "type" : "r_source"
+}
