@@ -79,3 +79,100 @@ print(y)
 apply(y[,-1],1,function(x) cor(x[1:2],x[3:4]))
 cor(y[c(2,3)])
 print(head(cor(myfiles[[1]][2:3], use = "pairwise.complete.obs")))
+
+
+class(c(1, -1/4))
+
+x=rbind(c(3,6,3),c(5,2,1),c(1,2,1))
+det(x)
+solve(x)
+
+
+new_counter <- function() {
+  i <- 0
+  function() {
+    # do something useful, then ...
+    i <<- i + 1
+    i
+  }
+}
+
+counter_one <- new_counter()
+counter_two <- new_counter()
+
+counter_one() # -> [1] 1
+counter_one() # -> [1] 2
+counter_two() # -> [1] 1
+counter_one()
+
+
+
+
+t2 <- function(x){
+  
+  get <- function(x){
+    print('...')
+    print(solve(x))
+  }
+  
+  set <- function() print('.....')
+  list(set = set, get = get)
+  
+}
+
+t1 <- function(x){
+  print(x)
+  #t3<-t2(x)
+  #t3.get(x)
+  x=as.data.frame(x)
+  x$t2.set()
+  
+}
+
+
+x=rbind(c(1, -1/4), c(-1/4, 1))
+x
+t1(x)
+
+
+sandbox <-new.env()
+
+sandbox$f <- function()
+{
+  value <- if(exists("x")) x else "not found."
+  cat("This is function f looking for symbol x:", value, "\n")
+}
+
+sandbox$g <- function()
+{
+  x <- 123
+  cat("This is function g. ")
+  f()
+}
+
+environment(sandbox$f) <- sandbox
+environment(sandbox$g) <- sandbox
+
+sandbox$g()
+
+t1<- function(x=matrix()){
+  get1<-function(x){
+    print(".")
+    solve(x)
+  }
+  get2<-function() solve(x)
+  
+  list(get1=get1,get2=get2)
+}
+
+
+t2<- function(x){
+  a <- t1(x)
+  print(class(a))
+  b <- a$get1(x)
+  print(class(a$get1(x)))
+  print(b)
+}
+
+x=rbind(c(1, -1/4), c(-1/4, 1))
+t2(x)

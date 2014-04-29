@@ -1,0 +1,17 @@
+{
+    "contents" : "source(\"submitscript3.R\")\nrankhospital <- function(state, outcome, num = \"best\") {\n  ## Read outcome data\n  outcomeData <- read.csv(\"outcome-of-care-measures.csv\", colClasses = \"character\")\n  ## Check that state and outcome are valid\n  if (!state %in% unique(outcomeData[,\"State\"])) stop(\"invalid state\")\n  if (!outcome %in% c(\"heart attack\",\"heart failure\",\"pneumonia\")) stop(\"invalid outcome\")\n  ## Return hospital name in that state with the given rank\n  if(outcome == \"heart attack\"){\n    ocm <- \"Hospital.30.Day.Death..Mortality..Rates.from.Heart.Attack\"\n    bestDF <- outcomeData[outcomeData[\"State\"] == state,][c(\"Hospital.Name\",\"State\",ocm)]\n    bestDF <- bestDF[!bestDF[ocm]==\"Not Available\",][c(\"Hospital.Name\",\"State\",ocm)]\n    bestDF[, ocm] <- as.numeric(bestDF[, ocm])\n    bestDF <- bestDF[order(bestDF$\"Hospital.30.Day.Death..Mortality..Rates.from.Heart.Attack\",bestDF$\"Hospital.Name\"),]\n  }\n  else if(outcome == \"heart failure\"){\n    ocm <- \"Hospital.30.Day.Death..Mortality..Rates.from.Heart.Failure\"\n    bestDF <- outcomeData[outcomeData[\"State\"] == state,][c(\"Hospital.Name\",\"State\",ocm)]\n    bestDF <- bestDF[!bestDF[ocm]==\"Not Available\",][c(\"Hospital.Name\",\"State\",ocm)]\n    bestDF[, ocm] <- as.numeric(bestDF[, ocm])\n    bestDF <- bestDF[order(bestDF$\"Hospital.30.Day.Death..Mortality..Rates.from.Heart.Failure\",bestDF$\"Hospital.Name\"),]\n  }\n  else if(outcome == \"pneumonia\"){\n    ocm <- \"Hospital.30.Day.Death..Mortality..Rates.from.Pneumonia\"\n    bestDF <- outcomeData[outcomeData[\"State\"] == state,][c(\"Hospital.Name\",\"State\",ocm)]\n    bestDF <- bestDF[!bestDF[ocm]==\"Not Available\",][c(\"Hospital.Name\",\"State\",ocm)]\n    bestDF[, ocm] <- as.numeric(bestDF[, ocm])\n    bestDF <- bestDF[order(bestDF$\"Hospital.30.Day.Death..Mortality..Rates.from.Pneumonia\",bestDF$\"Hospital.Name\"),]\n  }\n  ## 30-day death rate\n  if(num == \"best\"){\n    print(bestDF)\n    print(\"--------------\")\n    print(bestDF[1,\"Hospital.Name\"])\n    print(\"--------------\")\n    return(bestDF[1,\"Hospital.Name\"])\n  }\n  else if(num == \"worst\"){\n    print(bestDF)\n    print(\"--------------\")\n    print(bestDF[nrow(bestDF),\"Hospital.Name\"])\n    print(\"--------------\")\n    return(bestDF[nrow(bestDF),\"Hospital.Name\"])\n  }\n  else if(num > nrow(bestDF)){\n    print(\"NA\")\n    return(\"NA\")\n  }\n  else if(num < nrow(bestDF)){\n    print(bestDF)\n    print(\"--------------\")\n    print(bestDF[num,\"Hospital.Name\"])\n    print(\"--------------\")\n    return(bestDF[num,\"Hospital.Name\"])\n  }\n  \n}\n\n#test data\n#rankhospital(\"NC\", \"heart attack\", \"worst\")\n#rankhospital(\"WA\", \"heart attack\", 7)\n#rankhospital(\"WA\", \"pneumonia\", 1000)\n#rankhospital(\"NY\", \"heart attak\", 7)",
+    "created" : 1398666129102.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "2139533626",
+    "id" : "B2847CEE",
+    "lastKnownWriteTime" : 1398796829,
+    "path" : "~/Sandeep/GitHub/datasciencecoursera/IntroToR/Assignment3/rankhospital.R",
+    "project_path" : "rankhospital.R",
+    "properties" : {
+        "tempName" : "Untitled1"
+    },
+    "source_on_save" : true,
+    "type" : "r_source"
+}
